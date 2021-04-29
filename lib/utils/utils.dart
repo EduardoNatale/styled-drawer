@@ -13,4 +13,5 @@ class Utils {
   static double appBarHeight = 56;
   static Curve curves = Curves.fastOutSlowIn;
   static double width;
+  static TextStyle boldText = TextStyle(fontWeight: FontWeight.bold);
 }

@@ -27,61 +27,128 @@ class DrawerItemWidget extends StatelessWidget {
         child: child,
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.only(bottomRight: Radius.circular(16)),
+        borderRadius: BorderRadius.only(
+          bottomRight: Radius.circular(Utils.drawerRadius),
+        ),
         child: GestureDetector(
           onTap: () => _drawerProvider.changeCurrentIndex(index),
           child: Stack(
             children: <Widget>[
               AnimatedContainer(
-                  curve: Curves.fastOutSlowIn,
-                  duration: Utils.shortAnimationDuration,
-                  height: index == _drawerProvider.currentIndex
-                      ? _drawerProvider.maxItemHeight
-                      : Utils.drawerItemHeight,
-                  width: MediaQuery.of(context).size.width *
-                      drawerItem.widthPercentage,
-                  color: drawerItem.color,
-                  child: SingleChildScrollView(
-                    physics: NeverScrollableScrollPhysics(),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 32),
-                          height: Utils.drawerItemHeight,
-                          child: Row(
-                            children: <Widget>[
-                              Icon(drawerItem.icon),
-                              SizedBox(width: 16),
-                              Expanded(
-                                child: Text(
-                                  drawerItem.title,
-                                  textScaleFactor: 1,
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              )
-                            ],
+                curve: Curves.fastOutSlowIn,
+                duration: Utils.shortAnimationDuration,
+                height: index == _drawerProvider.currentIndex
+                    ? _drawerProvider.maxItemHeight
+                    : Utils.drawerItemHeight,
+                width: MediaQuery.of(context).size.width *
+                    drawerItem.widthPercentage,
+                color: drawerItem.color,
+                child: Stack(
+                  children: [
+                    SingleChildScrollView(
+                      physics: NeverScrollableScrollPhysics(),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: Utils.drawerHorizontalPadding,
+                            ),
+                            height: Utils.drawerItemHeight,
+                            child: Row(
+                              children: <Widget>[
+                                Icon(drawerItem.icon),
+                                SizedBox(width: Utils.spaceBetween),
+                                Expanded(
+                                  child: Text(
+                                    drawerItem.title,
+                                    textScaleFactor: 1,
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 16),
-                        Container(
-                          padding: const EdgeInsets.only(left: 48, right: 32),
-                          child: Text("Teste"),
-                        )
-                      ],
-                    ),
-                  )),
-              index != 0
-                  ? Positioned.fill(
-                      child: CustomPaint(
-                        painter: ShadowPainter(),
+                          SizedBox(height: Utils.spaceBetween),
+                          Container(
+                            padding: EdgeInsets.only(
+                              left: Utils.drawerHorizontalPadding +
+                                  24 +
+                                  Utils.spaceBetween,
+                              right: Utils.drawerHorizontalPadding,
+                            ),
+                            child: drawerItem.child,
+                          )
+                        ],
                       ),
-                    )
-                  : SizedBox.shrink()
+                    ),
+                    button(_drawerProvider),
+                  ],
+                ),
+              ),
+              _shadow(),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Widget _shadow() {
+    if (index != 0)
+      return Positioned.fill(
+        child: IgnorePointer(
+          child: CustomPaint(
+            painter: ShadowPainter(),
+          ),
+        ),
+      );
+
+    return SizedBox.shrink();
+  }
+
+  Widget button(DrawerProvider drawerProvider) {
+    if (index == drawerProvider.currentIndex && drawerItem.showButton)
+      return Align(
+        alignment: Alignment(1, 1),
+        child: Stack(
+          children: [
+            Container(
+              padding: EdgeInsets.all(8),
+              margin: EdgeInsets.only(
+                bottom: Utils.drawerHorizontalPadding - 8,
+                right: Utils.drawerHorizontalPadding - 8,
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Flexible(child: Text(drawerItem.buttonTitle)),
+                  Icon(Icons.arrow_right)
+                ],
+              ),
+            ),
+            Positioned.fill(
+              child: Material(
+                color: Colors.transparent,
+                child: Container(
+                  margin: EdgeInsets.only(
+                    bottom: Utils.drawerHorizontalPadding - 8,
+                    right: Utils.drawerHorizontalPadding - 8,
+                  ),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(
+                      Utils.patternRadius,
+                    ),
+                    onTap: () => drawerProvider.goToPage(index),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      );
+
+    return SizedBox.shrink();
   }
 }

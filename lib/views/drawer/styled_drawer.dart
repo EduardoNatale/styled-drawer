@@ -29,7 +29,7 @@ class StyleDrawer extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  "EPIC",
+                  "FLUTTER",
                   textScaleFactor: 1.6,
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),

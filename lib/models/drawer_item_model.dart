@@ -1,41 +1,142 @@
 import 'package:flutter/material.dart';
+import 'package:styled_drawer/utils/utils.dart';
+
+Column get column => Column(
+      children: [
+        Row(
+          children: [
+            Flexible(
+              child: Text(
+                "XXXX/XX/XX",
+                style: Utils.boldText,
+              ),
+            ),
+            SizedBox(width: Utils.spaceBetween),
+            Flexible(
+              child: Text(
+                "XXXX/XX/XX",
+                style: Utils.boldText,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: Utils.spaceBetween),
+        Row(
+          children: [
+            Flexible(
+              child: Text(
+                "XXXX/XX/XX",
+                style: Utils.boldText,
+              ),
+            ),
+            SizedBox(width: Utils.spaceBetween),
+            Flexible(
+              child: Text(
+                "XXXX/XX/XX",
+                style: Utils.boldText,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: Utils.spaceBetween),
+        Row(
+          children: [
+            Flexible(
+              child: Text(
+                "XXXX/XX/XX",
+                style: Utils.boldText,
+              ),
+            ),
+            SizedBox(width: Utils.spaceBetween),
+            Flexible(
+              child: Text(
+                "XXXX/XX/XX",
+                style: Utils.boldText,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: Utils.spaceBetween),
+        Row(
+          children: [
+            Flexible(
+              child: Text(
+                "XXXX/XX/XX",
+                style: Utils.boldText,
+              ),
+            ),
+            SizedBox(width: Utils.spaceBetween),
+            Flexible(
+              child: Text(
+                "XXXX/XX/XX",
+                style: Utils.boldText,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: Utils.spaceBetween),
+        Row(
+          children: [
+            Flexible(
+              child: Text(
+                "XXXX/XX/XX",
+                style: Utils.boldText,
+              ),
+            ),
+            SizedBox(width: Utils.spaceBetween),
+            Flexible(
+              child: Text(
+                "XXXX/XX/XX",
+                style: Utils.boldText,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
 
 List<DrawerItemModel> get drawerItems {
   return [
     DrawerItemModel(
-      icon: Icons.calendar_today,
-      title: "CALENDAR",
-      toRoute: "calendar",
+      icon: Icons.photo,
+      title: "PHOTOS",
       widthPercentage: 1,
       color: Colors.orange,
+      showButton: true,
+      buttonTitle: "SHOW PHOTOS",
+      child: column,
     ),
     DrawerItemModel(
       icon: Icons.bar_chart,
       title: "SEASON STATS",
-      toRoute: "season_stats",
       widthPercentage: .9,
       color: Colors.orange[600],
+      child: column,
     ),
     DrawerItemModel(
       icon: Icons.ac_unit,
       title: "CONDITIONS",
-      toRoute: "/conditions",
       widthPercentage: .8,
       color: Colors.orange[700],
+      showButton: true,
+      buttonTitle: "GO TO CONDITIONS",
+      child: column,
     ),
     DrawerItemModel(
       icon: Icons.map_sharp,
       title: "MAPS",
-      toRoute: "/maps",
       widthPercentage: .7,
       color: Colors.orange[800],
+      goDirect: true,
+      child: column,
     ),
     DrawerItemModel(
       icon: Icons.account_circle,
       title: "PROFILE",
-      toRoute: "/profile",
       widthPercentage: .6,
       color: Colors.orange[900],
+      goDirect: true,
+      child: column,
     ),
   ];
 }
@@ -43,17 +144,24 @@ List<DrawerItemModel> get drawerItems {
 class DrawerItemModel {
   final IconData icon;
   final String title;
-  final String toRoute;
-  final String details;
   final double widthPercentage;
   final Color color;
+  final bool showButton;
+  final String buttonTitle;
+  final bool goDirect;
+  final Widget child;
 
   DrawerItemModel({
     @required this.icon,
     @required this.title,
-    @required this.toRoute,
     @required this.widthPercentage,
     @required this.color,
-    this.details,
-  });
+    this.child,
+    this.buttonTitle,
+    this.goDirect = false,
+    this.showButton = false,
+  }) {
+    assert(showButton == false || goDirect == false);
+    if (showButton) assert(buttonTitle != null);
+  }
 }

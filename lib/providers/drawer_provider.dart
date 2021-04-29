@@ -20,9 +20,17 @@ class DrawerProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void changeCurrentIndex(int index) {
+  Future changeCurrentIndex(int index) async {
+    if (drawerItems[index].goDirect) {
+      goToPage(index);
+    }
     currentIndex = index;
     notifyListeners();
+  }
+
+  void goToPage(int index) {
+    pageController.jumpToPage(index);
+    handleDrawer();
   }
 
   void setMaxItemHeight(BoxConstraints boxConstraints) {
